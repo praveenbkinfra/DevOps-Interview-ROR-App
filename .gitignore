@@ -1,0 +1,59 @@
+# Terraform Files
+terraform.tfvars
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+crash.log
+terraform-outputs.txt
+
+# Secret Files
+create-secrets.sh
+set-env.sh
+encode-secrets.sh
+*.env
+.env*
+secrets.yaml
+
+# AWS Credentials
+.aws/
+aws-credentials.json
+*.pem
+*.key
+
+# Build and Logs
+*.log
+build-logs/
+docker-compose.override.yml
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Temporary and Backup Files
+*~
+*.tmp
+*.bak
+backup-*
+
+# Node modules (if any)
+node_modules/
+
+# Python cache (if any)
+__pycache__/
+*.pyc
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

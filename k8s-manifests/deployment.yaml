@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rails-app
+  namespace: default
+  labels:
+    app: rails-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: rails-app
+  template:
+    metadata:
+      labels:
+        app: rails-app
+    spec:
+      serviceAccountName: rails-app-service-account
+      containers:
+        - name: rails-app
+          image: 879808182386.dkr.ecr.us-east-1.amazonaws.com/rails-app:latest # Replace with your ECR URL
+          ports:
+            - containerPort: 3000
+          env:
+            - name: RAILS_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: rails-app-config
+                  key: RAILS_ENV
+            - name: RAILS_SERVE_STATIC_FILES
+              valueFrom:
+                configMapKeyRef:
+                  name: rails-app-config
+                  key: RAILS_SERVE_STATIC_FILES
+            - name: RAILS_LOG_TO_STDOUT
+              valueFrom:
+                configMapKeyRef:
+                  name: rails-app-config
+                  key: RAILS_LOG_TO_STDOUT
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: rails-app-secrets
+                  key: database-url
+            - name: S3_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: rails-app-secrets
+                  key: s3-bucket-name
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: rails-app-secrets
+                  key: secret-key-base
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: rails-app-service-account
+  namespace: default
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::879808182386:role/rails-app-dev-rails-app-role" # Replace with output from Terraform
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rails-app-secrets
+  namespace: default
+type: Opaque
+data:
+  database-url: "cG9zdGdyZXNxbDovL3JhaWxzdXNlcjpwcmF2ZWVuYmtpbmZyYUByYWlscy1hcHAtZGV2LXBvc3RncmVzLmNnZGl1YWNrdWFlby51cy1lYXN0LTEucmRzLmFtYXpvbmF3cy5jb206NTQzMi9yYWlsc2FwcA==" # Base64 encoded
+  s3-bucket-name: "cmFpbHMtYXBwLWRldi1zdG9yYWdlLXZwZ3N6d3Aw" # Base64 encoded
+  secret-key-base: "ODk1YmU5ZTc5ZGE1NTRhMjc4MjdlZTU4ZDM5MzRmNWZjZWUwYWJmYzIzMWM1YzA0MWM2ZDcwNjU5NmVlNGYwYTg2ZTI4MGIwZDExZDQ5NTYxNjBmYjlhMTczZTM4NWU5MzlhNWE2OGMwZTk4OWM1OWRkYjFhN2FiOGRjMjE4NDI=" # Base64 encoded
