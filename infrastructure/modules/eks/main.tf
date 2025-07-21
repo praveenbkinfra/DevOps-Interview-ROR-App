@@ -187,7 +187,7 @@ resource "aws_eks_node_group" "main" {
 # Key Pair for EKS Nodes
 resource "aws_key_pair" "eks_nodes" {
   key_name   = "${var.project_name}-${var.environment}-eks-nodes"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC70kxz9JKB2Sg7LcFjNJIZTsw92JIeScKOawipt+BoX+XkTy+jF5IiChSP+3at1OqYvec202Or5oXwpN96Q440fgs6wCkqj/DXthUFkIy0uET/FMty0tb0qFjbEdrT0aommJbo0g4STvuET/yQxD1Au1Wd1t7HpqlqBh+PDHftJrILREFmnwdjj0eXiTbYQG7KlxZstI36jicFvvJr9McT5LoSlCLnweOSME7U8MQnx15VGQ/NoDD4H6A4P/oqOcPtgNFTwWzzKRsGKf/qVH2uFR3Vp3BFblFK7jMZCTFIBBNdw2ikrwzrKPOQHbYnWUzu7Echru3OnVBlOo8y3YnrfroBrbrIUyx/F1cqrRO8+k2BfIqCf2rzZzhWzESzBKaG1pkQFz2/BvxDHXPRub07Aralw9R5aBsxvoYBVnyXXwSeiCOfuEkW68kC89jky/EB+mLcOmyMU2CXeAowdYjNeKu/4j0d4RxrHcWbWVrFfamiqK5EcMBdw69eXqKm8/leLkSQ5YgyEApzuOotmjI7dHs3DA4SvDqZDrbU+b2gaSV6ROQkth4ePvud/cXMsIpMYC1N3Idd82aNo5Kn1hi6jcH/a2eZYaHRFOh/acuQcmERkE/UdJlV4ELHKu/M5kKWLcMGZXE3MKmhpDzJMtMS22DT8twt/XGs4JVBezIelQ== prav-ops@LAPTOP-N0Q1D29M" # Replace with your public key
+  public_key = "xxxxxxxxxxxxxxxxxxxxxxxx" # Replace with your public key
 
   tags = var.tags
 }
